@@ -169,7 +169,9 @@ Route::controller(PosController::class)->group(function(){
 
 // Order All Route
 Route::controller(OrderController::class)->group(function(){
-    Route::get('pos', 'Pos')->name('pos'); // Add expense
+    Route::post('/final-invoice', 'FinalInvoice'); // Final Invoice
+    Route::get('/panding/order','PendingOrder')->name('pending#order'); // Pending Order
+    Route::get('/detail/order/{id}','DetailOrder')->name('detail#order'); // Detail Order
 
 
 });
