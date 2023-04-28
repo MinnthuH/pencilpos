@@ -102,20 +102,19 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $sl=1;
+                                                $sl = 1;
                                             @endphp
-                                            @foreach (  $cartItem as $key=>$item )
-                                            <tr>
-                                                <td>{{$sl++}}</td>
-                                                <td>
-                                                    <b>{{$item->name}}</b> <br />
+                                            @foreach ($cartItem as $key => $item)
+                                                <tr>
+                                                    <td>{{ $sl++ }}</td>
+                                                    <td>
+                                                        <b>{{ $item->name }}</b> <br />
 
-                                                </td>
-                                                <td>{{$item->qty}}</td>
-                                                <td>{{$item->price}} Ks</td>
-                                                <td class="text-end">{{$item->price*$item->qty}} Ks</td>
-                                            </tr>
-
+                                                    </td>
+                                                    <td>{{ $item->qty }}</td>
+                                                    <td>{{ $item->price }} Ks</td>
+                                                    <td class="text-end">{{ $item->price * $item->qty }} Ks</td>
+                                                </tr>
                                             @endforeach
 
                                         </tbody>
@@ -134,10 +133,10 @@
                             </div> <!-- end col -->
                             <div class="col-sm-6">
                                 <div class="float-end">
-                                    <p><b>Sub-total:</b> <span class="float-end">{{Cart::subtotal()}} Ks</span></p>
+                                    <p><b>Sub-total:</b> <span class="float-end">{{ Cart::subtotal() }} Ks</span></p>
                                     <p><b>Discount</b> <span class="float-end">0 Ks</span></p>
 
-                                    <h3>{{Cart::total()}} Ks</h3>
+                                    <h3>{{ Cart::total() }} Ks</h3>
                                 </div>
                                 <div class="clearfix"></div>
                             </div> <!-- end col -->
@@ -148,8 +147,8 @@
                             <div class="text-end d-print-none">
                                 <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i
                                         class="mdi mdi-printer me-1"></i> Print</a>
-                                        <button type="button" class="btn btn-blue" data-bs-toggle="modal"
-                                        data-bs-target="#signup-modal">Create Invoice</button>
+                                <button type="button" class="btn btn-blue" data-bs-toggle="modal"
+                                    data-bs-target="#signup-modal">Create Invoice</button>
                             </div>
                         </div>
                     </div>
@@ -171,22 +170,22 @@
 
                 <div class="text-center mt-2 mb-4">
                     <div class="auth-logo">
-                        <h3>Invoice Of {{$customer->name}}</h3>
-                        <h3>Total Amonunt {{Cart::total()}} Ks</h3>
+                        <h3>Invoice Of {{ $customer->name }}</h3>
+                        <h3>Total Amonunt {{ Cart::total() }} Ks</h3>
                     </div>
                 </div>
 
 
-                <form class="px-3" action="{{ route('store#category') }}" method="post">
+                <form class="px-3" action="{{ url('final-invoice') }}" method="post">
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Payment</label>
-                        <select name="customerId" class="form-select mt-3" id="example-select">
+                        <select name="paymetnStatus" class="form-select mt-3" id="example-select">
                             <option selected disabled>Select Payment</option>
 
-                                <option value="HandCash">HandCash</option>
-                                <option value="HandCash">Mobile Payment</option>
-                                <option value="HandCash">Due</option>
+                            <option value="HandCash">HandCash</option>
+                            <option value="HandCash">Mobile Payment</option>
+                            <option value="HandCash">Due</option>
 
                         </select>
                     </div>
@@ -200,6 +199,13 @@
                         <input class="form-control" type="text" id="naem" name="dueAmount"
                             placeholder="Due Amount">
                     </div>
+
+                    <input type="hidden" name="customerId" value="{{ $customer->id }}">
+                    <input type="hidden" name="orderDate" value="{{ date('d-F-Y') }}">
+                    <input type="hidden" name="orderStaus" value="pending">
+                    <input type="hidden" name="porductCount" value="{{ Cart::count() }}">
+                    <input type="hidden" name="subTotal" value="{{ Cart::subtotal() }}">
+                    <input type="hidden" name="total" value="{{ Cart::total() }}">
 
                     <div class="mb-3 text-center">
                         <button class="btn btn-blue" type="submit">Complete Order</button>

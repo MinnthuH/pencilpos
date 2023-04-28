@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\ExpenseController;
@@ -164,12 +165,13 @@ Route::controller(PosController::class)->group(function(){
     Route::get('/cart_remove/{rowId}', 'RemoveCart'); // Remove Item
     Route::post('/create-invoice','CreateInvoice'); // Create Invoice
 
+});
 
-
-
+// Order All Route
+Route::controller(OrderController::class)->group(function(){
+    Route::get('pos', 'Pos')->name('pos'); // Add expense
 
 
 });
-
 
 require __DIR__ . '/auth.php';
