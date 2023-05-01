@@ -174,7 +174,21 @@
                                 <a href="{{ route('pending#order')}}">Pending Orders</a>
                             </li>
                             <li>
-                                <a href="{{ route('add#product')}}">Complete Order</a>
+                                <a href="{{ route('complete#order')}}">Complete Order</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#stock" data-bs-toggle="collapse">
+                        <i class="mdi mdi-email-multiple-outline"></i>
+                        <span> Stock Manage </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="stock">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('manage#stock')}}">Stock</a>
                             </li>
                         </ul>
                     </div>

@@ -3,7 +3,7 @@
 
 @section('admin')
 @section('title')
-    Pending Order | Pencil POS System
+    Complete Order | Pencil POS System
 @endsection
 <div class="content">
 
@@ -16,11 +16,10 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <a href="{{ route('add#customer') }}"
-                                class="btn btn-blue rounded-pill waves-effect waves-light">Add Customer</a>
+
                         </ol>
                     </div>
-                    <h4 class="page-title">Pending Order</h4>
+                    <h4 class="page-title">Complete Order</h4>
                 </div>
             </div>
         </div>
@@ -56,10 +55,10 @@
                                         <td>{{ $item->invoice_no }}</td>
                                         <td>{{ $item->pay }}</td>
 
-                                        <td><span class="badge bg-danger">{{ $item->order_status }}</span></td>
+                                        <td><span class="badge bg-info">{{ $item->order_status }}</span></td>
                                         <td>
-                                            <a href="{{ route('detail#order', $item->id) }}" class="btn btn-info sm"
-                                                title="Edit Data"><i class="far fa-eye"></i></a>
+                                            <a href="{{ route('detail#order', $item->id) }}" class="btn btn-blue"
+                                                title="Edit Data">PDF Invoice</a>
 
                                         </td>
                                     </tr>

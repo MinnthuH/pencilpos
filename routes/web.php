@@ -172,6 +172,10 @@ Route::controller(OrderController::class)->group(function(){
     Route::post('/final-invoice', 'FinalInvoice'); // Final Invoice
     Route::get('/panding/order','PendingOrder')->name('pending#order'); // Pending Order
     Route::get('/detail/order/{id}','DetailOrder')->name('detail#order'); // Detail Order
+    Route::post('/update/status-order','UpdateStatus')->name('update#status'); // Update status order
+    Route::get('/complete/order','CompleteOrder')->name('complete#order'); // Complete Order
+
+    Route::get('/manage/stock','ManageStock')->name('manage#stock'); // Complete Order
 
 
 });

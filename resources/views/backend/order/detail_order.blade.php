@@ -30,9 +30,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tab-pane" id="settings">
-                            <form method="post" action="{{ route('stroe#customer') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('update#status') }}" enctype="multipart/form-data">
                                 @csrf
 
+                                <input type="hidden" name="id" value="{{$order->id}}">
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Order Detail
                                 </h5>
                                 <div class="row">
@@ -103,11 +104,52 @@
 
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-blue waves-effect waves-light mt-2"><i
-                                            class="mdi mdi-content-save"></i> Save</button>
+                                            class="mdi mdi-content-save"></i> Complete Order</button>
                                 </div>
                             </form>
                         </div>
                         <!-- end settings content-->
+
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <table  class="table dt-responsive nowrap w-100">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Image</th>
+                                                <th>Product Name</th>
+                                                <th>Product Code</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                           @foreach ($orderItem as $item)
+                                           <tr>
+                                            <td><img src="{{asset($item->product->product_image)}}" style="width:50px;height:40px;" alt=""></td>
+
+                                            <td>{{$item->product->product_name}}</td>
+                                            <td>{{$item->product->porduct_code}}</td>
+                                            <td>{{$item->quantity}}</td>
+                                            <td>{{$item->product->selling_price}}</td>
+                                            <td>{{$item->total}}</td>
+
+
+                                        </tr>
+                                           @endforeach
+
+                                        </tbody>
+                                    </table>
+
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
 
                     </div>
                 </div> <!-- end card-->
