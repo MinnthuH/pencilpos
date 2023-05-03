@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class OrderController extends Controller
@@ -81,6 +83,12 @@ class OrderController extends Controller
 
         $order_id = $request->id;
 
+        $product = OrderDetail::where('order_id',$order_id)->get();
+        foreach ($product as $item) {
+            Product::where('id', $item->product_id)
+                ->update(['product_store' => DB::raw('product_store-' . $item->quantity)]);
+        }
+
         Order::findOrFail($order_id)->update(['order_status' => 'complete']);
 
         $noti = [
@@ -91,18 +99,34 @@ class OrderController extends Controller
         return redirect()->route('pending#order')->with($noti);
     } // End Method
 
-      // Pending Order Method
-      public function CompleteOrder()
-      {
-          $order = Order::where('order_status', 'complete')->get();
-          return view('backend.order.complete_order', compact('order'));
+    // Pending Order Method
+    public function CompleteOrder()
+    {
+        $order = Order::where('order_status', 'complete')->get();
+        return view('backend.order.complete_order', compact('order'));
 
-      } // End Method
+    } // End Method
 
-      // Manage Stock Method
-      public function ManageStock (){
+    // Manage Stock Method
+    public function ManageStock()
+    {
 
         $product = Product::latest()->get();
-        return view('backend.stock.all_stock',compact('product'));
-      } // End Method
+        return view('backend.stock.all_stock', compact('product'));
+    } // End Method
+
+    // Order Invoice Download
+    public function InvoiceDownload($id){
+
+        $order = Order::where('id', $id)->first();
+
+        $orderItem = OrderDetail::with('product')->where('order_id', $id)->orderBy('id', 'DESC')->get();
+
+        $pdf = Pdf::loadView('backend.order.order_invoice', compact('order','orderItem'))->setPaper('a4')->setOption([
+            'tempDir' => public_path(),
+            'chroot' => public_path(),
+        ]);
+        return $pdf->download('invoice.pdf');
+
+    } // End Method
 }

@@ -57,7 +57,7 @@
 
                                         <td><span class="badge bg-info">{{ $item->order_status }}</span></td>
                                         <td>
-                                            <a href="{{ route('detail#order', $item->id) }}" class="btn btn-blue"
+                                            <a href="{{ url('order/invoice-download', $item->id) }}" class="btn btn-blue"
                                                 title="Edit Data">PDF Invoice</a>
 
                                         </td>

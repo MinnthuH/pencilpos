@@ -3,7 +3,7 @@
 
 @section('admin')
 @section('title')
-    All Product | Pencil POS System
+    All Stock | Pencil POS System
 @endsection
 <div class="content">
 
@@ -15,15 +15,9 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <a href="{{ route('import#product')}}" class="btn btn-blue rounded-pill waves-effect waves-light"> Import</a>
-                            &nbsp;
-                            <a href="{{ route('export#product')}}" class="btn btn-blue rounded-pill waves-effect waves-light"> Export</a>
-                            &nbsp;
-                            <a href="{{ route('add#product')}}" class="btn btn-blue rounded-pill waves-effect waves-light">Add Product</a>
-                        </ol>
+
                     </div>
-                    <h4 class="page-title">All Stock</h4>
+                    <h4 class="page-title">All Stock Tables</h4>
                 </div>
             </div>
         </div>
@@ -44,7 +38,6 @@
                                     <th>Supplier</th>
                                     <th>Code</th>
                                     <th>Stock</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
 

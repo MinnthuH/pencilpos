@@ -38,7 +38,7 @@ class ProductController extends Controller
     public function StoreProduct(Request $request)
     {
 
-        $pcode = IdGenerator::generate(['table' => 'products', 'field' => 'porduct_code', 'length' => 8, 'prefix' => 'PC']);
+        $pcode = IdGenerator::generate(['table' => 'products', 'field' => 'porduct_code', 'length' =>6, 'prefix' => 'SC']);
 
         $image = $request->file('productImage');
         $nameGen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension(); // set photo name (1326491.jpg/png..)

@@ -176,6 +176,7 @@ Route::controller(OrderController::class)->group(function(){
     Route::get('/complete/order','CompleteOrder')->name('complete#order'); // Complete Order
 
     Route::get('/manage/stock','ManageStock')->name('manage#stock'); // Complete Order
+    Route::get('/order/invoice-download/{id}', 'InvoiceDownload'); // Order Invoice Download
 
 
 });
