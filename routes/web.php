@@ -5,6 +5,7 @@ use App\Http\Controllers\PosController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\SalaryController;
 use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\ProductController;
@@ -177,6 +178,18 @@ Route::controller(OrderController::class)->group(function(){
 
     Route::get('/manage/stock','ManageStock')->name('manage#stock'); // Complete Order
     Route::get('/order/invoice-download/{id}', 'InvoiceDownload'); // Order Invoice Download
+
+
+});
+
+// Role All Route
+Route::controller(RoleController::class)->group(function(){
+    Route::get('/all-permission', 'AllPermission')->name('all#permission'); // All Permission
+    Route::get('/add-permission', 'AddPermission')->name('add#permission'); // Add Permission
+    Route::post('/store-permission', 'StorePermission')->name('store#permission'); // Store Permission
+    Route::get('edit/premission/{id}', 'EditPermission')->name('edit#permission'); // edit product route
+    Route::post('/update-permission', 'UpdatePermission')->name('update#permission'); // Update Permission
+    Route::get('delete/premission/{id}', 'DeletePermission')->name('delete#permission'); // edit product route
 
 
 });
