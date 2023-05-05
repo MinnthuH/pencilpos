@@ -182,14 +182,25 @@ Route::controller(OrderController::class)->group(function(){
 
 });
 
-// Role All Route
+// Permission All Route
 Route::controller(RoleController::class)->group(function(){
     Route::get('/all-permission', 'AllPermission')->name('all#permission'); // All Permission
     Route::get('/add-permission', 'AddPermission')->name('add#permission'); // Add Permission
     Route::post('/store-permission', 'StorePermission')->name('store#permission'); // Store Permission
     Route::get('edit/premission/{id}', 'EditPermission')->name('edit#permission'); // edit product route
     Route::post('/update-permission', 'UpdatePermission')->name('update#permission'); // Update Permission
-    Route::get('delete/premission/{id}', 'DeletePermission')->name('delete#permission'); // edit product route
+    Route::get('delete/premission/{id}', 'DeletePermission')->name('delete#permission'); // Delete Permission
+
+});
+
+// Role All Route
+Route::controller(RoleController::class)->group(function(){
+    Route::get('/all-roles', 'AllRoles')->name('all#roles'); // All Roles
+    Route::get('/add-roles', 'AddRoles')->name('add#roles'); // Add Roles
+    Route::post('/store-role','StoreRole')->name('store#role'); // Store Roles
+    Route::get('edit/roles/{id}', 'EditRoles')->name('edit#roles'); // edit role route
+    Route::post('/update-roles', 'UpdateRoles')->name('update#role'); // Update Role
+    Route::get('delete/role/{id}', 'DeleteRole')->name('delete#role'); // Delete Role
 
 
 });
