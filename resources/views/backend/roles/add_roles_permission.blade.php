@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="tab-pane" id="settings">
-                            <form method="post" action="{{ route('store#rolepermission') }}" >
+                            <form method="post" action="{{ route('store#rolepermission') }}" id="myForm">
                                 @csrf
 
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Add Role In
@@ -46,7 +46,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="firstname" class="form-label">All Roles</label>
-                                            <select name="roleId" class="form-select" id="example-select" >
+                                            <select name="roleId" class="form-select" id="example-select">
                                                 <option selected disabled>Select Role</option>
 
                                                 @foreach ($roles as $item)
@@ -120,6 +120,37 @@
             $('input[type = checkbox]').prop('checked', false);
         }
     });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myForm').validate({
+            rules: {
+                roleId: {
+                    required : true,
+                }
+
+            },
+            messages :{
+                roleId: {
+                    required : 'Please Select Role',
+                },
+
+            },
+            errorElement : 'span',
+            errorPlacement: function (error,element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight : function(element, errorClass, validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight : function(element, errorClass, validClass){
+                $(element).removeClass('is-invalid');
+            },
+        });
+    });
+
 </script>
 
 
