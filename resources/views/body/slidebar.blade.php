@@ -208,8 +208,13 @@
                                 <a href="{{ route('all#roles')}}">All Roles</a>
                             </li>
                             <li>
-                                <a href="{{ route('add#rolePermission')}}">Roles in Permission</a>
+                                <a href="{{ route('add#rolepermission')}}">Roles In Permission</a>
                             </li>
+                            <li>
+                                <a href="{{ route('all#rolepermission')}}">All Roles In Permission</a>
+                            </li>
+
+
                         </ul>
                     </div>
                 </li>

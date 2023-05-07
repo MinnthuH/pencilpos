@@ -204,5 +204,19 @@ Route::controller(RoleController::class)->group(function(){
 
 
 });
+// Add Role in Permission All Route
+Route::controller(RoleController::class)->group(function(){
+    Route::get('/add/roles/permission', 'AddRolesPermission')->name('add#rolepermission'); // All Roles
+    Route::post('/store/roles/permission', 'StoreRolesPermission')->name('store#rolepermission'); // Store Roles Parmassion
+    Route::get('/all/roles/permission', 'AllRolesPermission')->name('all#rolepermission'); // All Roles Parmassion
+    Route::get('/edit/roles/permission/{id}', 'EditRolesPermission')->name('adminedit#rolepermission'); // Edit Roles Parmassion
+    Route::post('/update/roles/permission/{id}', 'UpdateRolePermission')->name('update#rolepermission'); // Update Role Permission
+    Route::get('/delete/roles/permission/{id}', 'DeleteRolePermission')->name('admindelete#permission'); // Delete Role Permission
+
+
+
+
+
+});
 
 require __DIR__ . '/auth.php';
