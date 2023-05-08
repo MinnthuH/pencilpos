@@ -104,7 +104,7 @@
                     <div class="row mt-3">
                         <div class="col-12 text-center">
                             <p> <a href="auth-recoverpw.html" class="text-white-50 ms-1">Forgot your password?</a></p>
-                            <p class="text-white-50">Don't have an account? <a href="auth-register.html"
+                            <p class="text-white-50">Don't have an account? <a href="{{url('/register')}}"
                                     class="text-white ms-1"><b>Sign Up</b></a></p>
                         </div> <!-- end col -->
                     </div>
@@ -120,7 +120,7 @@
 
 
     <footer class="footer footer-alt">
-        2015 -
+        2022 -
         <script>
             document.write(new Date().getFullYear())
         </script> &copy; Pencil POS by <a href="" class="text-white-50">Beth</a>

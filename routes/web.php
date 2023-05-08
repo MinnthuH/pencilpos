@@ -214,9 +214,16 @@ Route::controller(RoleController::class)->group(function(){
     Route::get('/delete/roles/permission/{id}', 'DeleteRolePermission')->name('admindelete#permission'); // Delete Role Permission
 
 
+});
 
+// All Admin Route
+Route::controller(AdminController::class)->group(function(){
+    Route::get('/all/admin', 'AllAdmin')->name('all#admin'); // All Admin
+    Route::get('/add/admin', 'AddAdmin')->name('add#admin'); // Add Admin
+    Route::post('/stroe/admin', 'StroeAdmin')->name('stroe#admin'); // Add Admin
 
 
 });
+
 
 require __DIR__ . '/auth.php';
