@@ -16,7 +16,10 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <a href="{{ route('add#customer')}}" class="btn btn-blue rounded-pill waves-effect waves-light">Add Customer</a>
+                            @if (Auth::user()->can('customer.add'))
+                                <a href="{{ route('add#customer') }}"
+                                    class="btn btn-blue rounded-pill waves-effect waves-light">Add Customer</a>
+                            @endif
                         </ol>
                     </div>
                     <h4 class="page-title">All Customer Tables</h4>
@@ -44,23 +47,28 @@
 
 
                             <tbody>
-                               @foreach ($allCustomer as $key => $item)
-                               <tr>
-                                <td>{{$key+1}}</td>
-                                <td><img src="{{asset($item->image)}}" style="width:50px;height:40px;" alt=""></td>
-                                <td>{{$item->email}}</td>
-                                <td>{{$item->phone}}</td>
-                                <td>{{$item->shopname}}</td>
-                                <td>
-                                    <a href="{{ route('edit#customer',$item->id)}}" class="btn btn-info sm"
-                                        title="Edit Data"><i class="far fa-edit"></i></a>
-
-                                    <a href="{{ route('delete#customer',$item->id)}}"
-                                        class="btn btn-danger sm" title="Delete Data" id="delete"><i
-                                            class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                               @endforeach
+                                @foreach ($allCustomer as $key => $item)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td><img src="{{ asset($item->image) }}" style="width:50px;height:40px;"
+                                                alt=""></td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>{{ $item->phone }}</td>
+                                        <td>{{ $item->shopname }}</td>
+                                        <td>
+                                            @if (Auth::user()->can('customer.edit'))
+                                                <a href="{{ route('edit#customer', $item->id) }}"
+                                                    class="btn btn-info sm" title="Edit Data"><i
+                                                        class="far fa-edit"></i></a>
+                                            @endif
+                                            @if (Auth::user()->can('customer.delete'))
+                                                <a href="{{ route('delete#customer', $item->id) }}"
+                                                    class="btn btn-danger sm" title="Delete Data" id="delete"><i
+                                                        class="fas fa-trash-alt"></i></a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>

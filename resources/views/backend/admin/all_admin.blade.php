@@ -58,10 +58,10 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{ route('edit#customer', $item->id) }}" class="btn btn-info sm"
+                                            <a href="{{ route('edit#admin', $item->id) }}" class="btn btn-info sm"
                                                 title="Edit Data"><i class="far fa-edit"></i></a>
 
-                                            <a href="{{ route('delete#customer', $item->id) }}" class="btn btn-danger sm"
+                                            <a href="{{ route('delete#admin', $item->id) }}" class="btn btn-danger sm"
                                                 title="Delete Data" id="delete"><i class="fas fa-trash-alt"></i></a>
                                         </td>
                                     </tr>

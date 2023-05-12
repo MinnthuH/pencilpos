@@ -143,5 +143,49 @@ class AdminController extends Controller
             'alert-type' => 'success',
         ];
         return redirect()->route('all#admin')->with($noti);
-    }
+    }// End Method
+
+    // Edit Admin Method
+    public function EditAdmin($id){
+        $roles = Role::all();
+        $adminUser = User::findOrFail($id);
+        return view('backend.admin.edit_admin',compact('roles','adminUser'));
+    } // End Method
+
+    // Update Admin Method
+    public function UpdateAdmin(Request $request){
+        $adminId = $request->id;
+
+        $user = User::findOrFail($adminId);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+
+        $user->roles()->detach(); // previous role detach
+        if ($request->roleId) {
+
+            $user->assignRole($request->roleId);
+        }
+        $noti = [
+            'message' => 'Admin User Updated Successfully',
+            'alert-type' => 'success',
+        ];
+        return redirect()->route('all#admin')->with($noti);
+
+    } // End Method
+
+    // Delete Admin Method
+    public function DeleteAdmin ($id){
+
+        $user = User::findOrFail($id);
+        if(!is_null($user)){
+            $user->delete();
+        }
+        $noti = [
+            'message' => 'Admin User Deleted Successfully',
+            'alert-type' => 'success',
+        ];
+        return redirect()->back()->with($noti);
+    }// End Method
 }

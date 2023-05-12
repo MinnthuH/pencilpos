@@ -16,7 +16,8 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <a href="{{ route('add#employee')}}" class="btn btn-blue rounded-pill waves-effect waves-light">Add Employee</a>
+                            <a href="{{ route('add#employee') }}"
+                                class="btn btn-blue rounded-pill waves-effect waves-light">Add Employee</a>
                         </ol>
                     </div>
                     <h4 class="page-title">All Employee Tables</h4>
@@ -44,23 +45,28 @@
 
 
                             <tbody>
-                               @foreach ($allEmployee as $key => $item)
-                               <tr>
-                                <td>{{$key+1}}</td>
-                                <td><img src="{{asset($item->image)}}" style="width:50px;height:40px;" alt=""></td>
-                                <td>{{$item->email}}</td>
-                                <td>{{$item->phone}}</td>
-                                <td>{{$item->salary}}</td>
-                                <td>
-                                    <a href="{{ route('edit#employee',$item->id)}}" class="btn btn-info sm"
-                                        title="Edit Data"><i class="far fa-edit"></i></a>
+                                @foreach ($allEmployee as $key => $item)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td><img src="{{ asset($item->image) }}" style="width:50px;height:40px;"
+                                                alt=""></td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>{{ $item->phone }}</td>
+                                        <td>{{ $item->salary }}</td>
+                                        <td>
+                                            @if (Auth::user()->can('employee.edit'))
+                                                <a href="{{ route('edit#employee', $item->id) }}" class="btn btn-info sm"
+                                                    title="Edit Data"><i class="far fa-edit"></i></a>
+                                            @endif
 
-                                    <a href="{{ route('delete#employee',$item->id)}}"
-                                        class="btn btn-danger sm" title="Delete Data" id="delete"><i
-                                            class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                               @endforeach
+                                            @if (Auth::user()->can('employee.delete'))
+                                                <a href="{{ route('delete#employee', $item->id) }}"
+                                                    class="btn btn-danger sm" title="Delete Data" id="delete"><i
+                                                        class="fas fa-trash-alt"></i></a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>

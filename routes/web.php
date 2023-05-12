@@ -57,12 +57,12 @@ Route::middleware(['auth'])->group(function () {
 
 // Employee All Route
 Route::controller(EmployeeController::class)->group(function () {
-    Route::get('all/employee', 'AllEmployee')->name('all#employee'); // all employee page
-    Route::get('add/employee', 'AddEmployee')->name('add#employee'); // add employee page
+    Route::get('all/employee', 'AllEmployee')->name('all#employee')->middleware('permission:employee.all'); // all employee page
+    Route::get('add/employee', 'AddEmployee')->name('add#employee')->middleware('permission:employee.add'); // add employee page
     Route::post('store/employee', 'StoreEmployee')->name('stroe#employee'); // store employee data
-    Route::get('edit/employee/{id}', 'EditEmployee')->name('edit#employee'); // edit employee data
+    Route::get('edit/employee/{id}', 'EditEmployee')->name('edit#employee')->middleware('permission:employee.add'); // edit employee data
     Route::post('update/employee', 'UpdateEmployee')->name('update#employee'); // update employee data
-    Route::get('delete/employee/{id}', 'DeleteEmployee')->name('delete#employee'); // edit employee data
+    Route::get('delete/employee/{id}', 'DeleteEmployee')->name('delete#employee')->middleware('permission:employee.delete'); // edit employee data
 
 });
 
@@ -131,7 +131,7 @@ Route::controller(CategoryController::class)->group(function(){
 
 // Product All Route
 Route::controller(ProductController::class)->group(function(){
-    Route::get('all/product', 'AllProduct')->name('all#product'); // All product route
+    Route::get('all/product', 'AllProduct')->name('all#product')->middleware('permission:product.menu'); // All product route
     Route::get('add/product', 'AddProduct')->name('add#product'); // add product route
     Route::post('store/porduct', 'StoreProduct')->name('stroe#porduct'); // store product route
     Route::get('edit/product/{id}', 'EditProduct')->name('edit#product'); // edit product route
@@ -159,7 +159,7 @@ Route::controller(ExpenseController::class)->group(function(){
 
 // POS All Route
 Route::controller(PosController::class)->group(function(){
-    Route::get('pos', 'Pos')->name('pos'); // Add expense
+    Route::get('pos', 'Pos')->name('pos')->middleware('permission:pos.menu'); // Add expense
     Route::post('/add-cart', 'AddCart'); // Add expense
     Route::get('/allitem', 'AllItem'); // All Item
     Route::post('cart_update/{rowId}', 'UpdateCart'); // Update Cart
@@ -221,6 +221,12 @@ Route::controller(AdminController::class)->group(function(){
     Route::get('/all/admin', 'AllAdmin')->name('all#admin'); // All Admin
     Route::get('/add/admin', 'AddAdmin')->name('add#admin'); // Add Admin
     Route::post('/stroe/admin', 'StroeAdmin')->name('stroe#admin'); // Add Admin
+    Route::get('/edit/admin/{id}', 'EditAdmin')->name('edit#admin'); // Add Admin
+    Route::post('/update/admin', 'UpdateAdmin')->name('update#admin'); // Update Admin
+    Route::get('/delete/admin/{id}', 'DeleteAdmin')->name('delete#admin'); // delete Admin
+
+
+
 
 
 });
