@@ -226,6 +226,13 @@ Route::controller(AdminController::class)->group(function(){
     Route::get('/delete/admin/{id}', 'DeleteAdmin')->name('delete#admin'); // delete Admin
 
 
+    // Database Backup Route
+    Route::get('/database/backup', 'DatabaseBackup')->name('backup#database'); // All Admin
+    Route::get('/backup/now', 'BackupNow'); // Backup
+    Route::get('{getFilename}', 'DownloadDb'); // Download
+    Route::get('delete/database/{getFilename}', 'DeleteDb'); // Delete Database
+
+
 
 
 

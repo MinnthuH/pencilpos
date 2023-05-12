@@ -299,6 +299,21 @@
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <a href="#backup" data-bs-toggle="collapse">
+                        <i class="mdi mdi-account-circle-outline"></i>
+                        <span>Database Backup </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="backup">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('backup#database') }}">Database Backup</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
 
 
             </ul>

@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
+use File;
 
 class AdminController extends Controller
 {
@@ -188,4 +190,40 @@ class AdminController extends Controller
         ];
         return redirect()->back()->with($noti);
     }// End Method
+
+
+
+    //////////////////////Database Backup Method//////////////////////////
+    public function DatabaseBackup(){
+        return view('admin.db_backup')->with('file',File::allFiles(storage_path('/app/Pencil_POS')));
+    } // End Method
+
+    // Backup Now Method
+    public function BackupNow(){
+        \Artisan::call('backup:run');
+
+        $noti = [
+            'message' => 'Database Backup Successfully',
+            'alert-type' => 'success',
+        ];
+        return redirect()->back()->with($noti);
+
+    } // End Method
+
+    // Download Db
+    public function DownloadDb($getFilename){
+
+        $path = storage_path('app/Pencil_POS/'.$getFilename);
+        return response()->download($path);
+    } // End Method
+
+    // Delete Databasde
+    public function DeleteDb ($getFilename){
+        Storage::delete('Pencil_POS/'.$getFilename);
+        $noti = [
+            'message' => 'Database Deleted Successfully',
+            'alert-type' => 'success',
+        ];
+        return redirect()->back()->with($noti);
+    } // End Method
 }
