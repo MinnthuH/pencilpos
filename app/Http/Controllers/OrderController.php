@@ -17,6 +17,11 @@ class OrderController extends Controller
     public function FinalInvoice(Request $request)
     {
 
+        $rtotal = $request->total;
+        $rpay = $request->payNow;
+        $mtotal = $rtotal - $rpay;
+
+
         $data = array();
         $data['customer_id'] = $request->customerId;
         $data['order_date'] = $request->orderDate;
@@ -27,7 +32,7 @@ class OrderController extends Controller
         $data['total'] = $request->total;
         $data['paymet_status'] = $request->paymetnStatus;
         $data['pay'] = $request->payNow;
-        $data['due'] = $request->dueAmount;
+        $data['due'] = $mtotal;
         $data['created_at'] = Carbon::now();
 
         $order_id = Order::insertGetId($data);
@@ -127,6 +132,49 @@ class OrderController extends Controller
             'chroot' => public_path(),
         ]);
         return $pdf->download('invoice.pdf');
+
+    } // End Method
+
+    //////////// Due /////////////
+
+    // pending due method
+    public function PendingDue(){
+
+            $alldue = Order::where('due','>','0')->orderBy('id','DESC')->get();
+            return view('backend.order.pending_due',compact('alldue'));
+    }// End Method
+
+    // order due method
+    public function OrderDueAjax($id){
+        $order = Order::findOrFail($id);
+        return response()->json($order);
+    } // End Method
+
+    // Update Due Method
+    public function UpdateDue(Request $request){
+
+        $orderId = $request->id;
+        $payAmount = $request->pay;
+        $dueAmmount = $request->due;
+
+        $allOrder = Order::findOrFail($orderId);
+        $mainDue = $allOrder->due;
+        $mainPay = $allOrder->pay;
+
+        $paidDue = $mainDue - $dueAmmount;
+        $paidPay = $mainPay + $dueAmmount;
+
+        Order::findOrFail($orderId)->update([
+            'pay' =>$paidPay,
+            'due' =>$paidDue,
+        ]);
+
+        $noti = [
+            'message' => 'Order Done  Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('pending#due')->with($noti);
 
     } // End Method
 }

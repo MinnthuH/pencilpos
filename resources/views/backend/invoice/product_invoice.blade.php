@@ -63,7 +63,7 @@
                             <div class="col-md-4 offset-md-2">
                                 <div class="mt-3 float-end">
                                     <p><strong>Order Date : </strong> <span class="float-end"> &nbsp;&nbsp;&nbsp;&nbsp;
-                                            Jan 17, 2016</span></p>
+                                        {{ date('Y-m-d H:i:s') }}</span></p>
                                     <p><strong>Order Status : </strong> <span class="float-end"><span
                                                 class="badge bg-danger">Unpaid</span></span></p>
                                     <p><strong>Invoice No. : </strong> <span class="float-end">000028 </span></p>
@@ -184,21 +184,17 @@
                             <option selected disabled>Select Payment</option>
 
                             <option value="HandCash">HandCash</option>
-                            <option value="HandCash">Mobile Payment</option>
-                            <option value="HandCash">Due</option>
+                            <option value="Moblie Payment">Mobile Payment</option>
+                            <option value="Due">Due</option>
 
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Pay Now</label>
                         <input class="form-control" type="text" id="naem" name="payNow"
-                            placeholder="Add Category">
+                            placeholder="Pay Ammount">
                     </div>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Due Amount</label>
-                        <input class="form-control" type="text" id="naem" name="dueAmount"
-                            placeholder="Due Amount">
-                    </div>
+
 
                     <input type="hidden" name="customerId" value="{{ $customer->id }}">
                     <input type="hidden" name="orderDate" value="{{ date('d-F-Y') }}">
