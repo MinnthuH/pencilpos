@@ -44,6 +44,7 @@
                                     <th>Supplier</th>
                                     <th>Code</th>
                                     <th>Price</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,14 @@
                                 <td>{{$item['supplier']['name']}}</td>
                                 <td>{{$item->porduct_code}}</td>
                                 <td>{{$item->selling_price}}</td>
+                                <td>
+                                    @if ($item->expire_date >= Carbon\Carbon::now()->format('Y-m-d'))
+                                    <span class="badge rounded-pill bg-success">Valid</span>
+                                    @else
+                                    <span class="badge rounded-pill bg-danger">Invalid</span>
+                                    @endif
+
+                                </td>
                                 <td>
                                     <a href="{{ route('code#product',$item->id)}}" class="btn btn-warning sm"
                                         title="Edit Data"><i class="fas fa-barcode"></i></a>

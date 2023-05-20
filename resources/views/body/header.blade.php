@@ -5,12 +5,7 @@
             <li class="d-none d-lg-block">
                 <form class="app-search">
                     <div class="app-search-box dropdown">
-                        <div class="input-group">
-                            <input type="search" class="form-control" placeholder="Search..." id="top-search">
-                            <button class="btn input-group-text" type="submit">
-                                <i class="fe-search"></i>
-                            </button>
-                        </div>
+
 
                     </div>
                 </form>
@@ -34,7 +29,7 @@
             </li>
 
 
-            <li class="dropdown notification-list topbar-dropdown">
+            {{-- <li class="dropdown notification-list topbar-dropdown">
                 <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-bell noti-icon"></i>
                     <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
@@ -103,7 +98,7 @@
                     </a>
 
                 </div>
-            </li>
+            </li> --}}
 
             @php
                 $id= Auth::user()->id;
