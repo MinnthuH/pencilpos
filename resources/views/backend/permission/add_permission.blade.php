@@ -61,7 +61,8 @@
                                                 <option value="expense">Expense</option>
                                                 <option value="product">Product</option>
                                                 <option value="stock">Stock</option>
-                                                <option value="roles">Roles</option>
+                                                <option value="roles">Roles & Permission</option>
+                                                <option value="order">Order</option>
 
                                             </select>
                                         </div>
