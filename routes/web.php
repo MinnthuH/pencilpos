@@ -159,8 +159,11 @@ Route::controller(ExpenseController::class)->group(function(){
 
 // POS All Route
 Route::controller(PosController::class)->group(function(){
-    Route::get('pos', 'Pos')->name('pos')->middleware('permission:pos.menu'); // Add expense
-    Route::post('/add-cart', 'AddCart'); // Add expense
+    Route::get('pos', 'Pos')->name('pos')->middleware('permission:pos.menu'); // Pos page
+
+    Route::get('/category/search/{id}','categorySearch');// Product search with category
+
+    Route::post('/add-cart', 'AddCart'); // Add card
     Route::get('/allitem', 'AllItem'); // All Item
     Route::post('cart_update/{rowId}', 'UpdateCart'); // Update Cart
     Route::get('/cart_remove/{rowId}', 'RemoveCart'); // Remove Item

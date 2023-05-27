@@ -20,12 +20,11 @@ class ProductImport implements ToModel
            'supplier_id' => $row[2],
            'porduct_code' => $row[3],
            'product_garage' => $row[4],
-           'product_image' => $row[5],
-           'product_store' => $row[6],
-           'buying_date' => $row[7],
-           'expire_date' => $row[8],
-           'buy_price' => $row[9],
-           'selling_price' => $row[10],
+           'product_store' => $row[5],
+           'buying_date' => $row[6],
+           'expire_date' => $row[7],
+           'buy_price' => $row[8],
+           'selling_price' => $row[9],
         ]);
     }
 }

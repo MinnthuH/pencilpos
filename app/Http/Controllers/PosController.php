@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use App\Models\Product;
 use Carbon\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class PosController extends Controller
 {
@@ -17,7 +18,18 @@ class PosController extends Controller
         $todayDate = Carbon::now();
         $products = Product::where('expire_date', '>', $todayDate)->latest()->get();
         $customers = Customer::latest()->get();
-        return view('backend.pos.pos_page', compact('products', 'customers'));
+        $categories = Category::latest()->get();
+        return view('backend.pos.pos_page', compact('products', 'customers','categories'));
+    } // End Method
+
+    // Product Search with category
+    public function categorySearch($id){
+        $product = Product::where('category_id', $id)->get();
+        $todayDate = Carbon::now();
+        $products = Product::where('expire_date', '>', $todayDate)->latest()->get();
+        $customers = Customer::latest()->get();
+        $categories = Category::latest()->get();
+        return view('backend.pos.pos_category_page', compact('products', 'customers','categories','product'));
     } // End Method
 
     // Add Cart Method

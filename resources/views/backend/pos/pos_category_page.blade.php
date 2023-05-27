@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="row row-cols-1 row-cols-md-6 g-1">
-                            @foreach ($products as $key => $item)
+                            @foreach ($product as $key => $item)
                                 <form action="{{ url('/add-cart') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $item->id }}">
