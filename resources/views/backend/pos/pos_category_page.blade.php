@@ -102,7 +102,7 @@
                         </div>
 
                         <!-- end col -->
-                        <button class="btn btn-blue waves-effect waves-light mb-3">Create Invoice</button>
+                        <button class="btn btn-blue waves-effect waves-light mb-3">Order Comfirm</button>
                     </form>
 
                 </div> <!-- end card -->
@@ -113,44 +113,6 @@
 
             <div class="col-lg-8 col-xl-8">
                 <div class="card">
-                    {{-- <div class="card-body"> --}}
-
-                    {{-- <div class="tab-pane" id="settings"> --}}
-                    {{-- <table id="basic-datatable" class="table dt-responsive nowrap w-100">
-                                <thead>
-                                    <tr>
-                                        <th>Sl</th>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th></th>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @foreach ($products as $key => $item)
-                                        <tr>
-                                            <form action="{{ url('/add-cart') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $item->id }}">
-                                                <input type="hidden" name="porductName"
-                                                    value="{{ $item->product_name }}">
-                                                <input type="hidden" name="qty" value="1">
-                                                <input type="hidden" name="price"
-                                                    value="{{ $item->selling_price }}">
-                                                <td>{{ $key + 1 }}</td>
-                                                <td><img src="{{ asset($item->product_image) }}"
-                                                        style="width:50px;height:40px;" alt=""></td>
-                                                <td>{{ $item->product_name }}</td>
-                                                <td><button type="submit" style="font-size: 20px; color:#0d37f3;"><i
-                                                            class="fas fa-plus-square"></i></button></td>
-
-                                            </form>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table> --}}
                     <div class="row">
                         <div class="dropdown">
                             <div class="col-sm-6">

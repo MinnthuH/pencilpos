@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use Carbon\Carbon;
+use App\Models\Sale;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class OrderController extends Controller
@@ -17,48 +19,84 @@ class OrderController extends Controller
     public function FinalInvoice(Request $request)
     {
 
-        $rtotal = $request->total;
-        $rpay = $request->payNow;
-        $mtotal = $rtotal - $rpay;
+        DB::beginTransaction();
+
+        try {
+            // Perform your database operations within the transaction
+            // For example, inserting/updating records or deleting data
+            $rtotal = $request->total;
+            $rpay = $request->payNow; // ပိုပေးလျှင် အခြေအနေကိုပြင်ရန်
 
 
-        $data = array();
-        $data['customer_id'] = $request->customerId;
-        $data['order_date'] = $request->orderDate;
-        $data['order_status'] = $request->orderStaus;
-        $data['total_products'] = $request->porductCount;
-        $data['sub_total'] = $request->subTotal;
-        $data['invoice_no'] = 'pos' . mt_rand(10000000, 99999999);
-        $data['total'] = $request->total;
-        $data['paymet_status'] = $request->paymetnStatus;
-        $data['pay'] = $request->payNow;
-        $data['due'] = $mtotal;
-        $data['created_at'] = Carbon::now();
+            Sale::insert([
+                'user_id'=> $request->userId,
+                'customer_id'=> $request->customerId,
+                'invoice_date'=> Carbon::now(),
+                'invoice_no'=> 'INV' . mt_rand(10000000, 99999999),
+                'payment_type'=> $request->paymetnStatus,
+                'sub_total'=> $request->subTotal,
+                'discount'=> 0,
+                'accepted_ammount'=> $request->payNow,
+                'due'=> $request->due,
+                'return_change'=> $request->returnChange,
+                'created_at'=>Carbon::now(),
+            ]);
 
-        $order_id = Order::insertGetId($data);
-        $contents = Cart::content();
 
-        $pdata = array();
-        foreach ($contents as $content) {
-            $pdata['order_id'] = $order_id;
-            $pdata['product_id'] = $content->id;
-            $pdata['quantity'] = $content->qty;
-            $pdata['unitcost'] = $content->price;
-            $pdata['total'] = $content->price;
-            $pdata['total'] = $content->total;
-            $pdata['created_at'] = Carbon::now();
+            $data = array();
+            $data['customer_id'] = $request->customerId;
+            $data['order_date'] = $request->orderDate;
+            $data['order_status'] = $request->orderStaus;
+            $data['total_products'] = $request->porductCount;
+            $data['sub_total'] = $request->subTotal;
+            $data['invoice_no'] = 'pos' . mt_rand(10000000, 99999999);
+            $data['total'] = $request->total;
+            $data['paymet_status'] = $request->paymetnStatus;
+            $data['pay'] = $request->payNow;
+            $data['due'] = $request->due;
+            $data['created_at'] = Carbon::now();
 
-            OrderDetail::insert($pdata);
+            $order_id = Order::insertGetId($data);
+            $contents = Cart::content();
 
-        } // end foreach
-        $noti = [
-            'message' => 'Order Complete Successfully',
-            'alert-type' => 'success',
-        ];
 
-        Cart::destroy();
+            $pdata = array();
+            foreach ($contents as $content) {
+                $pdata['order_id'] = $order_id;
+                $pdata['product_id'] = $content->id;
+                $pdata['quantity'] = $content->qty;
+                $pdata['unitcost'] = $content->price;
+                $pdata['total'] = $content->price;
+                $pdata['total'] = $content->total;
+                $pdata['created_at'] = Carbon::now();
 
-        return redirect()->route('pos')->with($noti);
+                OrderDetail::insert($pdata);
+
+            } // end foreach
+            $noti = [
+                'message' => 'Order Complete Successfully',
+                'alert-type' => 'success',
+            ];
+            // Commit the transaction if everything is successful
+            DB::commit();
+            // Additional code or redirect to a success page
+            Cart::destroy();
+            $returnChange = $request->returnChange;
+            $customerId = $request->customerId;
+            $customer = Customer::where('id', $customerId)->first();
+            $sale= Sale::latest()->firstOrFail();
+
+            return view('backend.invoice.print_invoice', compact('sale','customer','rpay','returnChange','contents'));
+
+        } catch (\Exception $e) {
+            // An error occurred, so rollback the transaction
+            DB::rollback();
+
+
+            // Handle the error, log it, or redirect to an error page
+        }
+
+
 
     } // End Method
 

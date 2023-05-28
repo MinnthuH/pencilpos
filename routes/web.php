@@ -193,7 +193,7 @@ Route::controller(OrderController::class)->group(function(){
 
 // Permission All Route
 Route::controller(RoleController::class)->group(function(){
-    Route::get('/all-permission', 'AllPermission')->name('all#permission'); // All Permission
+    Route::get('/all-permission', 'AllPermission')->name('all#permission'); // All Permissionp
     Route::get('/add-permission', 'AddPermission')->name('add#permission'); // Add Permission
     Route::post('/store-permission', 'StorePermission')->name('store#permission'); // Store Permission
     Route::get('edit/premission/{id}', 'EditPermission')->name('edit#permission'); // edit product route
