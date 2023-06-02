@@ -28,20 +28,34 @@ class OrderController extends Controller
             $rpay = $request->payNow; // ပိုပေးလျှင် အခြေအနေကိုပြင်ရန်
 
 
-            Sale::insert([
-                'user_id'=> $request->userId,
-                'customer_id'=> $request->customerId,
-                'invoice_date'=> Carbon::now(),
-                'invoice_no'=> 'INV' . mt_rand(10000000, 99999999),
-                'payment_type'=> $request->paymetnStatus,
-                'sub_total'=> $request->subTotal,
-                'discount'=> 0,
-                'accepted_ammount'=> $request->payNow,
-                'due'=> $request->due,
-                'return_change'=> $request->returnChange,
-                'created_at'=>Carbon::now(),
-            ]);
+            // Sale::insert([
+            //     'user_id'=> $request->userId,
+            //     'customer_id'=> $request->customerId,
+            //     'invoice_date'=> Carbon::now(),
+            //     'invoice_no'=> 'INV' . mt_rand(10000000, 99999999),
+            //     'payment_type'=> $request->paymetnStatus,
+            //     'sub_total'=> $request->subTotal,
+            //     'discount'=> 0,
+            //     'accepted_ammount'=> $request->payNow,
+            //     'due'=> $request->due,
+            //     'return_change'=> $request->returnChange,
+            //     'created_at'=>Carbon::now(),
+            // ]);
 
+            $result = Sale::insertGetId([
+                'user_id' => $request->userId,
+                'customer_id' => $request->customerId,
+                'invoice_date' => Carbon::now(),
+                'invoice_no' => 'INV' . mt_rand(10000000, 99999999),
+                'payment_type' => $request->paymetnStatus,
+                'sub_total' => $request->subTotal,
+                'discount' => 0,
+                'accepted_ammount' => $request->payNow,
+                'due' => $request->due,
+                'return_change' => $request->returnChange,
+                'created_at' => Carbon::now(),
+            ]);
+            $sale_id = $result; //Retrieve the generated sale_id
 
             $data = array();
             $data['customer_id'] = $request->customerId;
@@ -56,6 +70,7 @@ class OrderController extends Controller
             $data['due'] = $request->due;
             $data['created_at'] = Carbon::now();
 
+            $sale_id = $result; //Retrieve the generated sale_id
             $order_id = Order::insertGetId($data);
             $contents = Cart::content();
 
@@ -63,6 +78,7 @@ class OrderController extends Controller
             $pdata = array();
             foreach ($contents as $content) {
                 $pdata['order_id'] = $order_id;
+                $pdata['sale_id'] = $sale_id;
                 $pdata['product_id'] = $content->id;
                 $pdata['quantity'] = $content->qty;
                 $pdata['unitcost'] = $content->price;
@@ -73,6 +89,8 @@ class OrderController extends Controller
                 OrderDetail::insert($pdata);
 
             } // end foreach
+
+
             $noti = [
                 'message' => 'Order Complete Successfully',
                 'alert-type' => 'success',
@@ -90,6 +108,7 @@ class OrderController extends Controller
 
         } catch (\Exception $e) {
             // An error occurred, so rollback the transaction
+            dd($e);
             DB::rollback();
 
 

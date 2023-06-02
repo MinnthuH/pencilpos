@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\SaleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\AdminController;
@@ -189,6 +190,13 @@ Route::controller(OrderController::class)->group(function(){
     Route::post('/update/due','UpdateDue')->name('update#due'); // Update Due
 
 
+});
+
+// Sale All Route
+Route::controller(SaleController::class)->group(function(){
+    Route::get('/all/sale','allSale')->name('all#sale'); // All Sale
+    Route::get('/sale/detail/{id}','detailSale')->name('detail#sale'); // Detail Sale
+    Route::get('/stock/product/{id}','stockProduct')->name('stock#product'); // prodct stock - from pordcut_store from prodcuts
 });
 
 // Permission All Route

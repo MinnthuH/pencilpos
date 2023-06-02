@@ -35,8 +35,8 @@
                                 <div class="auth-logo">
                                     <div class="logo logo-dark">
                                         <span class="logo-lg">
-                                            <img src="{{ asset('backend/assets/images/pecnil_textwithlogo.png') }}" alt=""
-                                                height="22">
+                                            <img src="{{ asset('backend/assets/images/pecnil_textwithlogo.png') }}"
+                                                alt="" height="22">
                                         </span>
                                     </div>
 
@@ -66,9 +66,12 @@
                                     <p><strong>Order Date : </strong> <span class="float-end">
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             {{ $sale->invoice_date }}</span></p>
-                                    <p><strong>Order Status : </strong><span class="float-end">{{ $sale->payment_type }}</span></p>
-                                    <p><strong>Invoice No. : </strong> <span class="float-end">{{$sale->invoice_no}} </span></p>
-                                    <p><strong>Cashier. : </strong> <span class="float-end">{{Auth::user()->name}} </span></p>
+                                    <p><strong>Order Status : </strong><span
+                                            class="float-end">{{ $sale->payment_type }}</span></p>
+                                    <p><strong>Invoice No. : </strong> <span class="float-end">{{ $sale->invoice_no }}
+                                        </span></p>
+                                    <p><strong>Cashier. : </strong> <span class="float-end">{{ Auth::user()->name }}
+                                        </span></p>
                                 </div>
                             </div><!-- end col -->
                         </div>
@@ -135,30 +138,40 @@
                             </div> <!-- end col -->
                             <div class="col-sm-6">
                                 <div class="float-end">
-                                    <p><b>ကျသင့်ငွေ</b> <span class="float-end" name="sub_total">{{ $sale->sub_total}}
+                                    <p><b>ကျသင့်ငွေ</b> <span class="float-end" name="sub_total">{{ $sale->sub_total }}
                                             Ks</span>
                                     </p>
-                                    <p><b>ပေးငွေ</b> <span class="float-end" name="sub_total">{{ $sale->accepted_ammount}}
+                                    <p><b>ပေးငွေ</b> <span class="float-end"
+                                            name="sub_total">{{ $sale->accepted_ammount }}
                                             Ks</span>
                                     </p>
-                                    <p><b>ကျန်ငွေ</b> <span class="float-end" name="sub_total">{{ $sale->due}}
+                                    <p><b>ကျန်ငွေ</b> <span class="float-end" name="sub_total">{{ $sale->due ?? '0' }}
                                             Ks</span>
                                     </p>
-                                    <p><b>ပြန်အမ်းငွေ</b> <span class="float-end" name>{{ $sale->return_change}} Ks</span></p>
+                                    <p><b>ပြန်အမ်းငွေ</b> <span class="float-end"
+                                            name>{{ $sale->return_change ?? '0' }} Ks</span></p>
 
-                                    <h3>{{ $sale->sub_total}} Ks</h3>
+                                    <h3>{{ $sale->sub_total }} Ks</h3>
                                 </div>
                                 <div class="clearfix"></div>
                             </div> <!-- end col -->
                         </div>
                         <!-- end row -->
 
-                        <div class="mt-4 mb-1">
-                            <div class="text-end d-print-none">
-                                <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i
-                                        class="mdi mdi-printer me-1"></i> Print</a>
+
+
+                            <div class="mt-4 mb-1">
+                                <div class="text-end d-print-none">
+
+                                    <a href="{{ route('stock#product', $sale->id) }}" onclick="window.print()"
+                                        class="btn btn-primary waves-effect waves-light" id="printButton">
+                                        <i class="mdi mdi-printer me-1"></i> Print
+                                     </a>
+
+
+                                </div>
                             </div>
-                        </div>
+
                     </div>
                 </div> <!-- end card -->
 
@@ -169,6 +182,21 @@
     </div> <!-- container -->
 
 </div> <!-- content -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var printButton = document.getElementById('printButton');
+
+        printButton.addEventListener('click', function() {
+            // Perform any necessary actions before printing
+
+            window.onafterprint = function() {
+                // Define the return route or action after printing is completed
+                window.location.href = '/pos';
+            };
+        });
+    });
+</script>
 
 
 

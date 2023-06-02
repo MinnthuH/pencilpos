@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('customer_id');
             $table->stirng('invoice_date');
             $table->string('invoice_no');
-            $table->string('payment_type');
+            $table->string('payment_type')->nullable();
             $table->string('sub_total')->nullable();
             $table->string('discount')->nullable();
             $table->string('accepted_ammount')->nullable();

@@ -232,6 +232,20 @@
                     </li>
                 @endif
                 <li>
+                    <a href="#sales" data-bs-toggle="collapse">
+                        <i class="fas fa-clipboard"></i>
+                        <span> Sales </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sales">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('all#sale') }}">All Sales</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
                     <a href="#stock" data-bs-toggle="collapse">
                         <i class="fas fa-chart-line"></i>
                         <span> Stock Manage </span>
