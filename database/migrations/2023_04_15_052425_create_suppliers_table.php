@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone');
             $table->text('address')->nullable();
             $table->string('shopname')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('type')->nullable();
             $table->string('account_holder')->nullable();
             $table->string('account_number')->nullable();

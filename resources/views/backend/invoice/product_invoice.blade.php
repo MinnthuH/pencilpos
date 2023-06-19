@@ -64,7 +64,8 @@
                                 <div class="mt-3 float-end">
                                     <p><strong>Order Date : </strong> <span class="float-end">
                                             &nbsp;&nbsp;&nbsp;&nbsp;
-                                            {{ date('Y-m-d H:i:s') }}</span></p>
+                                            {{ \Carbon\Carbon::now()->setTimezone('Asia/Yangon')->format('Y-m-d H:i:s') }}
+                                        </span></p>
 
                                 </div>
                             </div><!-- end col -->

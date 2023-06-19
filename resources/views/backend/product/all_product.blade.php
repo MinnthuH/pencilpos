@@ -70,7 +70,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('code#product',$item->id)}}" class="btn btn-warning sm"
-                                        title="Edit Data"><i class="fas fa-barcode"></i></a>
+                                        title="barcode"><i class="fas fa-barcode"></i></a>
 
                                     <a href="{{ route('edit#product',$item->id)}}" class="btn btn-info sm"
                                         title="Edit Data"><i class="far fa-edit"></i></a>

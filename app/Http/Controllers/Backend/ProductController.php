@@ -13,6 +13,7 @@ use Image;
 use App\Exports\ProductExport;
 use App\Imports\ProductImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class ProductController extends Controller
 {
@@ -155,7 +156,10 @@ class ProductController extends Controller
     {
 
         $product = Product::findOrFail($id);
-        return view('backend.product.code_product', compact('product'));
+        $generator = new BarcodeGeneratorPNG();
+        $barcodeData = $generator->getBarcode($product->porduct_code, $generator::TYPE_CODE_128);
+        $barcodeImage = base64_encode($barcodeData);
+        return view('backend.product.code_product', compact('product', 'barcodeImage'));
     } //End Method
 
     // Import Product
@@ -181,5 +185,38 @@ class ProductController extends Controller
 
     } // End Method
 
+
+    //Refill Stock Method
+    public function refillStock(Request $request)
+
+    {
+
+        $id = $request->productId;
+        $quantity = $request->refillStock;
+
+        try {
+            $product = Product::findOrFail($id);
+
+            // Update the stock quantity
+            $product->product_store += $quantity;
+
+            $product->save();
+
+            $noti = [
+                'message' => 'Stock Import Successful',
+                'alert-type' => 'success',
+            ];
+
+            return redirect()->route('manage#stock')->with($noti);
+        } catch (\Exception $e) {
+            // Handle the exception or display an error message
+            $noti = [
+                'message' => 'Error: Stock Import Failed',
+                'alert-type' => 'error',
+            ];
+
+            return redirect()->back()->with($noti);
+        }
+    }
 
 }

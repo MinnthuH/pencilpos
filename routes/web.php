@@ -143,6 +143,9 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('export/product', 'ExportProduct')->name('export#product'); // Exprot product route
     Route::post('import','Import')->name('import'); // Import
 
+    ////// Add Stock ////
+    Route::post('refill/stock','refillStock')->name('refill.stock'); // refill stock
+
 });
 
 // Expense All Route

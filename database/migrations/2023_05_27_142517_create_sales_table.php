@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('customer_id');
-            $table->stirng('invoice_date');
-            $table->string('invoice_no');
+            $table->string('invoice_date');
+            $table->string('invoice_no')->unique();
             $table->string('payment_type')->nullable();
             $table->string('sub_total')->nullable();
             $table->string('discount')->nullable();

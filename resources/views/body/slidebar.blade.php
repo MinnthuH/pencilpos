@@ -233,7 +233,7 @@
                 @endif
                 <li>
                     <a href="#sales" data-bs-toggle="collapse">
-                        <i class="fas fa-clipboard"></i>
+                        <i class=" fas fa-hand-holding-usd"></i>
                         <span> Sales </span>
                         <span class="menu-arrow"></span>
                     </a>

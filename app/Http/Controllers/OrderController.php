@@ -19,30 +19,19 @@ class OrderController extends Controller
     public function FinalInvoice(Request $request)
     {
 
+
         DB::beginTransaction();
 
         try {
             // Perform your database operations within the transaction
             // For example, inserting/updating records or deleting data
+
+
             $rtotal = $request->total;
             $rpay = $request->payNow; // ပိုပေးလျှင် အခြေအနေကိုပြင်ရန်
 
 
-            // Sale::insert([
-            //     'user_id'=> $request->userId,
-            //     'customer_id'=> $request->customerId,
-            //     'invoice_date'=> Carbon::now(),
-            //     'invoice_no'=> 'INV' . mt_rand(10000000, 99999999),
-            //     'payment_type'=> $request->paymetnStatus,
-            //     'sub_total'=> $request->subTotal,
-            //     'discount'=> 0,
-            //     'accepted_ammount'=> $request->payNow,
-            //     'due'=> $request->due,
-            //     'return_change'=> $request->returnChange,
-            //     'created_at'=>Carbon::now(),
-            // ]);
-
-            $result = Sale::insertGetId([
+           $result = Sale::insertGetId([
                 'user_id' => $request->userId,
                 'customer_id' => $request->customerId,
                 'invoice_date' => Carbon::now(),
@@ -53,9 +42,9 @@ class OrderController extends Controller
                 'accepted_ammount' => $request->payNow,
                 'due' => $request->due,
                 'return_change' => $request->returnChange,
-                'created_at' => Carbon::now(),
+                'created_at' => Carbon::now()->setTimezone('Asia/Yangon'),
             ]);
-            $sale_id = $result; //Retrieve the generated sale_id
+
 
             $data = array();
             $data['customer_id'] = $request->customerId;
