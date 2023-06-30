@@ -15,10 +15,13 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        {{-- <ol class="breadcrumb m-0">
-                            <a href="{{ route('add#customer') }}"
-                                class="btn btn-blue rounded-pill waves-effect waves-light">Add Customer</a>
-                        </ol> --}}
+                        <ol class="breadcrumb m-0">
+                            <a href="{{ route('sales.export.daily') }}" class="btn btn-blue rounded-pill waves-effect waves-light">Export Daily Sales</a>
+                            &nbsp;
+                            <a href="{{ route('sales.export.weekly') }}" class="btn btn-blue rounded-pill waves-effect waves-light">Export Weekly Sales</a>
+                            &nbsp;
+                            <a href="{{ route('sales.export.monthly') }}" class="btn btn-blue rounded-pill waves-effect waves-light">Export Monthly Sales</a>
+                        </ol>
                     </div>
                     <h4 class="page-title">Sales</h4>
                 </div>

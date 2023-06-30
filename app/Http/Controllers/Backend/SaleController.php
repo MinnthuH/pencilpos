@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\Product;
 use App\Models\OrderDetail;
-use App\Http\Controllers\Controller;
+use App\Exports\SalesExport;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class SaleController extends Controller
 {
@@ -35,4 +39,32 @@ class SaleController extends Controller
         return redirect()->route('pos');
 
     } // End Method
+
+    public function exportDailySales()
+{
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $sales = Sale::whereDate('invoice_date', $currentDate)->get();
+
+    return Excel::download(new SalesExport($sales), 'daily_sales.xlsx');
+}
+
+public function exportWeeklySales()
+{
+    $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
+    $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
+    $sales = Sale::whereBetween('invoice_date', [$startDate, $endDate])->get();
+
+    return Excel::download(new SalesExport($sales), 'weekly_sales.xlsx');
+}
+
+public function exportMonthlySales()
+{
+    $currentMonth = Carbon::now()->format('m');
+    $currentYear = Carbon::now()->format('Y');
+    $sales = Sale::whereMonth('invoice_date', $currentMonth)
+                   ->whereYear('invoice_date', $currentYear)
+                   ->get();
+
+    return Excel::download(new SalesExport($sales), 'monthly_sales.xlsx');
+}
 }

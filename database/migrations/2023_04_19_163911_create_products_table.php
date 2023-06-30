@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('expire_date')->nullable();
             $table->integer('buy_price')->nullable();
             $table->integer('selling_price')->nullable();
+            $table->integer('unit')->nullable();
             $table->timestamps();
         });
     }

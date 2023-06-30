@@ -3,20 +3,38 @@
 
 @section('admin')
 
-@php
-    $date = date('d-F-Y');
-    $todayPaid = App\Models\Order::where('order_date',$date)->sum('pay');
+    @php
+        $currentDate = Carbon\Carbon::now()->format('Y-m-d');
+        $todayPaid = App\Models\Sale::whereDate('invoice_date', $currentDate)->sum('sub_total');
+        $todaySale = App\Models\Sale::whereDate('invoice_date', $currentDate)->get();
 
-    $totalPaid =  App\Models\Order::sum('pay');
-    $totalDue =  App\Models\Order::sum('due');
+        // Get the start and end dates of the current week
+        $startDate = date('Y-m-d', strtotime('last Monday'));
+        $endDate = date('Y-m-d', strtotime('next Sunday'));
 
-    $completeOrder =  App\Models\Order::where('order_status','complete')->get();
-    $pendingOrder =  App\Models\Order::where('order_status','pending')->get();
-@endphp
+        // Calculate the sum of payments for the current week
+        $weeklyPaid = App\Models\Sale::whereBetween('invoice_date', [$startDate, $endDate])->sum('sub_total');
 
-<div class="content">
+        // Get the current month and year
+        $currentMonth = Carbon\Carbon::now()->format('m');
+        $currentYear = Carbon\Carbon::now()->format('Y');
+
+        // Calculate the sum of payments for the current month
+        $monthlyPaid = App\Models\Sale::whereMonth('invoice_date', $currentMonth)
+            ->whereYear('invoice_date', $currentYear)
+            ->sum('sub_total');
+
+        $totalPaid = App\Models\Order::sum('pay');
+        $totalDue = App\Models\Order::sum('due');
+
+        $completeOrder = App\Models\Order::where('order_status', 'complete')->get();
+        $pendingOrder = App\Models\Order::where('order_status', 'pending')->get();
+        $sales = App\Models\Sale::orderBy('id', 'DESC')->get();
+    @endphp
+
+    <div class="content">
     @section('title')
-    Dashboard | Pencil POS System
+        Dashboard | Pencil POS System
     @endsection
     <!-- Start Content-->
     <div class="container-fluid">
@@ -59,8 +77,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-end">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$todayPaid}}</span>Ks</h3>
-                                    <p class="text-muted mb-1 text-truncate">Today Income</p>
+                                    <h3 class="text-dark mt-1"><span
+                                            data-plugin="counterup">{{ $todayPaid }}</span>Ks</h3>
+                                    <p class="text-muted mb-1 text-truncate">Today Sales</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -79,8 +98,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-end">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$totalDue}}</span>Ks</h3>
-                                    <p class="text-muted mb-1 text-truncate">Total Due</p>
+                                    <h3 class="text-dark mt-1"><span
+                                            data-plugin="counterup">{{ $weeklyPaid }}</span>Ks</h3>
+                                    <p class="text-muted mb-1 text-truncate">Weekly Sales</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -99,8 +119,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-end">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{count($completeOrder)}}</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Complete Order</p>
+                                    <h3 class="text-dark mt-1"><span
+                                            data-plugin="counterup">{{ $monthlyPaid }}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Monthly Sale</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -119,8 +140,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-end">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{count($pendingOrder)}}</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Pending Order</p>
+                                    <h3 class="text-dark mt-1"><span
+                                            data-plugin="counterup">{{ count($todaySale) }}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Today Sales Count</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -130,7 +152,7 @@
         </div>
         <!-- end row-->
 
-        <div class="row">
+        {{-- <div class="row">
 
 
             <div class="col-lg-12">
@@ -152,7 +174,7 @@
                     </div>
                 </div> <!-- end card -->
             </div> <!-- end col-->
-        </div>
+        </div> --}}
         <!-- end row -->
 
         <div class="row">
@@ -162,7 +184,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="dropdown float-end">
-                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <i class="mdi mdi-dots-vertical"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
@@ -182,145 +205,37 @@
 
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Marketplaces</th>
-                                        <th>Date</th>
-                                        <th>Payouts</th>
-                                        <th>Status</th>
+                                        <th>Sl</th>
+                                        <th>Cashier Name</th>
+                                        <th>Invoice Date</th>
+                                        <th>Invoice No</th>
+                                        <th>Payment Type</th>
+                                        <th>Total</th>
+                                        <th>Pay</th>
+                                        <th>Return Change</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+
+
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <h5 class="m-0 fw-normal">Themes Market</h5>
-                                        </td>
+                                    @foreach ($sales as $key => $item)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $item['user']['name'] }}</td>
+                                            <td>{{ $item->invoice_date }}</td>
+                                            <td>{{ $item->invoice_no }}</td>
+                                            <td>{{ $item->payment_type }}</td>
+                                            <td>{{ $item->sub_total }}</td>
+                                            <td>{{ $item->accepted_ammount }}</td>
+                                            <td>{{ $item->return_change }}</td>
+                                            <td>
+                                                <a href="{{ route('detail#sale', $item->id) }}" class="btn btn-info sm"
+                                                    title="Detail Data"><i class="far fa-eye"></i></a>
 
-                                        <td>
-                                            Oct 15, 2018
-                                        </td>
-
-                                        <td>
-                                            $5848.68
-                                        </td>
-
-                                        <td>
-                                            <span class="badge bg-soft-warning text-warning">Upcoming</span>
-                                        </td>
-
-                                        <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h5 class="m-0 fw-normal">Freelance</h5>
-                                        </td>
-
-                                        <td>
-                                            Oct 12, 2018
-                                        </td>
-
-                                        <td>
-                                            $1247.25
-                                        </td>
-
-                                        <td>
-                                            <span class="badge bg-soft-success text-success">Paid</span>
-                                        </td>
-
-                                        <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h5 class="m-0 fw-normal">Share Holding</h5>
-                                        </td>
-
-                                        <td>
-                                            Oct 10, 2018
-                                        </td>
-
-                                        <td>
-                                            $815.89
-                                        </td>
-
-                                        <td>
-                                            <span class="badge bg-soft-success text-success">Paid</span>
-                                        </td>
-
-                                        <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h5 class="m-0 fw-normal">Envato's Affiliates</h5>
-                                        </td>
-
-                                        <td>
-                                            Oct 03, 2018
-                                        </td>
-
-                                        <td>
-                                            $248.75
-                                        </td>
-
-                                        <td>
-                                            <span class="badge bg-soft-danger text-danger">Overdue</span>
-                                        </td>
-
-                                        <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h5 class="m-0 fw-normal">Marketing Revenue</h5>
-                                        </td>
-
-                                        <td>
-                                            Sep 21, 2018
-                                        </td>
-
-                                        <td>
-                                            $978.21
-                                        </td>
-
-                                        <td>
-                                            <span class="badge bg-soft-warning text-warning">Upcoming</span>
-                                        </td>
-
-                                        <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <h5 class="m-0 fw-normal">Advertise Revenue</h5>
-                                        </td>
-
-                                        <td>
-                                            Sep 15, 2018
-                                        </td>
-
-                                        <td>
-                                            $358.10
-                                        </td>
-
-                                        <td>
-                                            <span class="badge bg-soft-success text-success">Paid</span>
-                                        </td>
-
-                                        <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-pencil"></i></a>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
                                 </tbody>
                             </table>

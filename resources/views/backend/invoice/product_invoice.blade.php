@@ -4,8 +4,9 @@
 @section('title')
     Order | Pencil POS System
 @endsection
-
+<script src="{{ asset('backend/assets/jquery.js') }}"></script>
 <div class="content">
+
 
     <!-- Start Content-->
     <div class="container-fluid">
@@ -176,7 +177,7 @@
                 </div>
 
 
-                <form class="px-3" action="{{ url('final-invoice') }}" method="post">
+                <form class="px-3" action="{{ url('final-invoice') }}" method="post" id="myForm">
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Payment</label>
@@ -243,6 +244,36 @@
             }
         });
     });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myForm').validate({
+            rules: {
+                payNow: {
+                    required : true,
+                },
+            },
+            messages :{
+                payNow: {
+                    required : 'ပေးငွေဖြည့်ပါ',
+                },
+
+            },
+            errorElement : 'span',
+            errorPlacement: function (error,element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight : function(element, errorClass, validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight : function(element, errorClass, validClass){
+                $(element).removeClass('is-invalid');
+            },
+        });
+    });
+
 </script>
 
 

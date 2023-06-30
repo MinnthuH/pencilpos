@@ -132,6 +132,14 @@
                                         </div>
                                     </div>
                                     <!-- end col -->
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="firstname" class="form-label">Unit</label>
+                                            <input type="text" name="unit" class="form-control"
+                                                value="{{ $product->unit }}">
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
 
                                     <div class="col-md-12">
                                         <div class="form-group mb-3">
@@ -215,6 +223,9 @@
                 sellingPrice: {
                     required: true,
                 },
+                unit: {
+                    required: true,
+                },
             },
             messages: {
                 productName: {
@@ -246,6 +257,9 @@
                 },
                 sellingPrice: {
                     required: 'Please Enter Selling Price',
+                },
+                unit: {
+                    required: 'Please Enter Unit',
                 },
 
 
